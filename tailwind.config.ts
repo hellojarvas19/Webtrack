@@ -51,8 +51,8 @@ const config: Config = {
       },
       keyframes: {
         'pulse-neon': {
-          '0%, 100%': { opacity: 1 },
-          '50%': { opacity: 0.7 },
+          '0%, 100%': { opacity: '1' },
+          '50%': { opacity: '0.7' },
         },
         'glow': {
           '0%': { boxShadow: '0 0 20px rgba(156, 163, 175, 0.1)' },
