@@ -1,0 +1,70 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL_WEBTRACK")
+}
+
+model WebWallet {
+  id           String   @id @default(cuid())
+  address      String   @unique
+  name         String?
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  
+  transactions WebTransaction[]
+  
+  @@index([address])
+  @@index([isActive])
+}
+
+model WebTransaction {
+  id           String   @id @default(cuid())
+  signature    String   @unique
+  walletId     String
+  
+  // Transaction type
+  type         String   // buy, sell, transfer
+  platform     String?  // pumpfun, raydium, jupiter, pumpfun_amm
+  
+  // Token details
+  tokenIn      String?  // Symbol
+  tokenOut     String?  // Symbol
+  tokenInMint  String?  // Mint address
+  tokenOutMint String?  // Mint address
+  amountIn     String?
+  amountOut    String?
+  
+  // Token metadata at time of transaction
+  tokenMint    String?  // Main token mint being tracked
+  tokenSymbol  String?  // Token symbol
+  tokenName    String?  // Token name
+  tokenImage   String?  // Token logo URL
+  
+  // Market data
+  marketCap    Float?
+  liquidity    Float?
+  priceUsd     Float?
+  solPrice     Float?
+  
+  // Wallet holdings after transaction
+  holdingBalance   String?
+  holdingPercent   String?
+  
+  // Full metadata JSON (token analysis, security info)
+  metadata     Json?
+  
+  // Timestamps
+  blockTime    DateTime? // On-chain timestamp
+  timestamp    DateTime  @default(now())
+  
+  wallet       WebWallet @relation(fields: [walletId], references: [id], onDelete: Cascade)
+  
+  @@index([walletId])
+  @@index([signature])
+  @@index([type])
+  @@index([timestamp])
+}

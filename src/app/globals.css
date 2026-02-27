@@ -1,0 +1,231 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --void: #000000;
+  --glass-light: rgba(255, 255, 255, 0.05);
+  --glass-medium: rgba(20, 20, 25, 0.6);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --plasma-400: #9CA3AF;
+  --plasma-500: #6B7280;
+  --neon-green: #22C55E;
+  --neon-red: #EF4444;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  background: var(--void);
+  color: white;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Glass Card Base */
+@layer components {
+  .glass-card {
+    @apply relative rounded-2xl;
+    background: var(--glass-medium);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  }
+
+  .glass-card-hover {
+    @apply glass-card transition-all duration-300;
+  }
+
+  .glass-card-hover:hover {
+    border-color: rgba(255, 255, 255, 0.12);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    transform: translateY(-2px);
+  }
+
+  /* Neon Button */
+  .neon-button {
+    @apply px-4 py-2 rounded-xl font-medium transition-all duration-300;
+    background: rgba(156, 163, 175, 0.1);
+    border: 1px solid rgba(156, 163, 175, 0.2);
+    color: var(--plasma-400);
+  }
+
+  .neon-button:hover {
+    background: rgba(156, 163, 175, 0.15);
+    border-color: rgba(156, 163, 175, 0.3);
+    box-shadow: 0 0 20px rgba(156, 163, 175, 0.15);
+  }
+
+  .neon-button-green {
+    @apply neon-button;
+    background: rgba(34, 197, 94, 0.1);
+    border-color: rgba(34, 197, 94, 0.2);
+    color: var(--neon-green);
+  }
+
+  .neon-button-green:hover {
+    background: rgba(34, 197, 94, 0.15);
+    border-color: rgba(34, 197, 94, 0.4);
+    box-shadow: 0 0 20px rgba(34, 197, 94, 0.2);
+  }
+
+  .neon-button-red {
+    @apply neon-button;
+    background: rgba(239, 68, 68, 0.1);
+    border-color: rgba(239, 68, 68, 0.2);
+    color: var(--neon-red);
+  }
+
+  .neon-button-red:hover {
+    background: rgba(239, 68, 68, 0.15);
+    border-color: rgba(239, 68, 68, 0.4);
+    box-shadow: 0 0 20px rgba(239, 68, 68, 0.2);
+  }
+
+  /* Glowing Text */
+  .glow-text {
+    text-shadow: 0 0 10px rgba(156, 163, 175, 0.3);
+  }
+
+  .glow-text-green {
+    text-shadow: 0 0 10px rgba(34, 197, 94, 0.4);
+  }
+
+  .glow-text-red {
+    text-shadow: 0 0 10px rgba(239, 68, 68, 0.4);
+  }
+
+  /* Glass Input */
+  .glass-input {
+    @apply w-full px-4 py-3 rounded-xl outline-none transition-all duration-300;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: white;
+  }
+
+  .glass-input:focus {
+    border-color: rgba(156, 163, 175, 0.3);
+    box-shadow: 0 0 15px rgba(156, 163, 175, 0.1);
+  }
+
+  .glass-input::placeholder {
+    color: rgba(255, 255, 255, 0.3);
+  }
+
+  /* Transaction type badges */
+  .badge-buy {
+    @apply inline-flex items-center px-2 py-1 rounded-lg text-xs font-medium;
+    background: rgba(34, 197, 94, 0.15);
+    color: var(--neon-green);
+    border: 1px solid rgba(34, 197, 94, 0.2);
+  }
+
+  .badge-sell {
+    @apply inline-flex items-center px-2 py-1 rounded-lg text-xs font-medium;
+    background: rgba(239, 68, 68, 0.15);
+    color: var(--neon-red);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+  }
+
+  /* Status indicators */
+  .status-active {
+    @apply w-2 h-2 rounded-full;
+    background: var(--neon-green);
+    box-shadow: 0 0 8px rgba(34, 197, 94, 0.5);
+  }
+
+  .status-paused {
+    @apply w-2 h-2 rounded-full;
+    background: #F59E0B;
+    box-shadow: 0 0 8px rgba(245, 158, 11, 0.5);
+  }
+
+  /* Platform badges */
+  .platform-badge {
+    @apply inline-flex items-center px-2 py-0.5 rounded text-xs;
+    background: rgba(156, 163, 175, 0.1);
+    color: var(--plasma-400);
+    border: 1px solid rgba(156, 163, 175, 0.15);
+  }
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(156, 163, 175, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(156, 163, 175, 0.2);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* Expand animation for wallet details */
+.wallet-expand {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out;
+}
+
+.wallet-expand.expanded {
+  max-height: 1000px;
+}
+
+/* Link styles */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--plasma-400);
+}
+
+/* Selection */
+::selection {
+  background: rgba(156, 163, 175, 0.3);
+}
