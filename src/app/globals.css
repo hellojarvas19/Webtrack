@@ -4,13 +4,14 @@
 
 :root {
   --void: #000000;
-  --glass-light: rgba(255, 255, 255, 0.05);
-  --glass-medium: rgba(20, 20, 25, 0.6);
-  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-light: rgba(255, 255, 255, 0.03);
+  --glass-medium: rgba(15, 15, 20, 0.7);
+  --glass-border: rgba(156, 163, 175, 0.15);
   --plasma-400: #9CA3AF;
   --plasma-500: #6B7280;
   --neon-green: #22C55E;
   --neon-red: #EF4444;
+  --plasma-glow: rgba(156, 163, 175, 0.4);
 }
 
 * {
@@ -26,6 +27,24 @@ body {
   background: var(--void);
   color: white;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  perspective: 1500px;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at 50% 50%, rgba(156, 163, 175, 0.03) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+body > * {
+  position: relative;
+  z-index: 1;
 }
 
 /* Scrollbar Styling */
@@ -51,87 +70,133 @@ body {
 @layer components {
   .glass-card {
     @apply relative rounded-2xl;
-    background: var(--glass-medium);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    background: linear-gradient(135deg, rgba(15, 15, 20, 0.8) 0%, rgba(10, 10, 15, 0.9) 100%);
+    backdrop-filter: blur(40px);
+    -webkit-backdrop-filter: blur(40px);
     border: 1px solid var(--glass-border);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    box-shadow: 
+      0 20px 60px rgba(0, 0, 0, 0.8),
+      0 0 40px rgba(156, 163, 175, 0.08),
+      inset 0 1px 0 rgba(156, 163, 175, 0.1),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.5);
+    transform-style: preserve-3d;
+    perspective: 1000px;
   }
 
   .glass-card-hover {
-    @apply glass-card transition-all duration-300;
+    @apply glass-card transition-all duration-500;
   }
 
   .glass-card-hover:hover {
-    border-color: rgba(255, 255, 255, 0.12);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.08);
-    transform: translateY(-2px);
+    border-color: rgba(156, 163, 175, 0.3);
+    box-shadow: 
+      0 30px 80px rgba(0, 0, 0, 0.9),
+      0 0 60px rgba(156, 163, 175, 0.15),
+      inset 0 1px 0 rgba(156, 163, 175, 0.2),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.6);
+    transform: translateY(-4px) translateZ(20px);
   }
 
   /* Neon Button */
   .neon-button {
-    @apply px-4 py-2 rounded-xl font-medium transition-all duration-300;
-    background: rgba(156, 163, 175, 0.1);
-    border: 1px solid rgba(156, 163, 175, 0.2);
+    @apply px-4 py-2 rounded-xl font-medium transition-all duration-500;
+    background: linear-gradient(135deg, rgba(156, 163, 175, 0.12) 0%, rgba(156, 163, 175, 0.08) 100%);
+    border: 1px solid rgba(156, 163, 175, 0.25);
     color: var(--plasma-400);
+    box-shadow: 
+      0 4px 20px rgba(0, 0, 0, 0.6),
+      inset 0 1px 0 rgba(156, 163, 175, 0.15);
+    transform-style: preserve-3d;
   }
 
   .neon-button:hover {
-    background: rgba(156, 163, 175, 0.15);
-    border-color: rgba(156, 163, 175, 0.3);
-    box-shadow: 0 0 20px rgba(156, 163, 175, 0.15);
+    background: linear-gradient(135deg, rgba(156, 163, 175, 0.2) 0%, rgba(156, 163, 175, 0.15) 100%);
+    border-color: rgba(156, 163, 175, 0.4);
+    box-shadow: 
+      0 8px 30px rgba(0, 0, 0, 0.7),
+      0 0 40px rgba(156, 163, 175, 0.25),
+      inset 0 1px 0 rgba(156, 163, 175, 0.25);
+    transform: translateY(-2px) translateZ(10px);
   }
 
   .neon-button-green {
-    @apply neon-button;
-    background: rgba(34, 197, 94, 0.1);
-    border-color: rgba(34, 197, 94, 0.2);
+    @apply px-4 py-2 rounded-xl font-medium transition-all duration-500;
+    background: linear-gradient(135deg, rgba(34, 197, 94, 0.15) 0%, rgba(34, 197, 94, 0.1) 100%);
+    border: 1px solid rgba(34, 197, 94, 0.3);
     color: var(--neon-green);
+    box-shadow: 
+      0 4px 20px rgba(0, 0, 0, 0.6),
+      0 0 20px rgba(34, 197, 94, 0.15),
+      inset 0 1px 0 rgba(34, 197, 94, 0.2);
   }
 
   .neon-button-green:hover {
-    background: rgba(34, 197, 94, 0.15);
-    border-color: rgba(34, 197, 94, 0.4);
-    box-shadow: 0 0 20px rgba(34, 197, 94, 0.2);
+    background: linear-gradient(135deg, rgba(34, 197, 94, 0.25) 0%, rgba(34, 197, 94, 0.18) 100%);
+    border-color: rgba(34, 197, 94, 0.5);
+    box-shadow: 
+      0 8px 30px rgba(0, 0, 0, 0.7),
+      0 0 50px rgba(34, 197, 94, 0.35),
+      inset 0 1px 0 rgba(34, 197, 94, 0.3);
+    transform: translateY(-2px) translateZ(10px);
   }
 
   .neon-button-red {
-    @apply neon-button;
-    background: rgba(239, 68, 68, 0.1);
-    border-color: rgba(239, 68, 68, 0.2);
+    @apply px-4 py-2 rounded-xl font-medium transition-all duration-500;
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.15) 0%, rgba(239, 68, 68, 0.1) 100%);
+    border: 1px solid rgba(239, 68, 68, 0.3);
     color: var(--neon-red);
+    box-shadow: 
+      0 4px 20px rgba(0, 0, 0, 0.6),
+      0 0 20px rgba(239, 68, 68, 0.15),
+      inset 0 1px 0 rgba(239, 68, 68, 0.2);
   }
 
   .neon-button-red:hover {
-    background: rgba(239, 68, 68, 0.15);
-    border-color: rgba(239, 68, 68, 0.4);
-    box-shadow: 0 0 20px rgba(239, 68, 68, 0.2);
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.25) 0%, rgba(239, 68, 68, 0.18) 100%);
+    border-color: rgba(239, 68, 68, 0.5);
+    box-shadow: 
+      0 8px 30px rgba(0, 0, 0, 0.7),
+      0 0 50px rgba(239, 68, 68, 0.35),
+      inset 0 1px 0 rgba(239, 68, 68, 0.3);
+    transform: translateY(-2px) translateZ(10px);
   }
 
   /* Glowing Text */
   .glow-text {
-    text-shadow: 0 0 10px rgba(156, 163, 175, 0.3);
+    text-shadow: 
+      0 0 20px rgba(156, 163, 175, 0.5),
+      0 0 40px rgba(156, 163, 175, 0.2);
   }
 
   .glow-text-green {
-    text-shadow: 0 0 10px rgba(34, 197, 94, 0.4);
+    text-shadow: 
+      0 0 20px rgba(34, 197, 94, 0.6),
+      0 0 40px rgba(34, 197, 94, 0.3);
   }
 
   .glow-text-red {
-    text-shadow: 0 0 10px rgba(239, 68, 68, 0.4);
+    text-shadow: 
+      0 0 20px rgba(239, 68, 68, 0.6),
+      0 0 40px rgba(239, 68, 68, 0.3);
   }
 
   /* Glass Input */
   .glass-input {
-    @apply w-full px-4 py-3 rounded-xl outline-none transition-all duration-300;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    @apply w-full px-4 py-3 rounded-xl outline-none transition-all duration-500;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.02) 100%);
+    border: 1px solid rgba(156, 163, 175, 0.15);
     color: white;
+    box-shadow: 
+      inset 0 2px 10px rgba(0, 0, 0, 0.5),
+      0 4px 20px rgba(0, 0, 0, 0.4);
   }
 
   .glass-input:focus {
-    border-color: rgba(156, 163, 175, 0.3);
-    box-shadow: 0 0 15px rgba(156, 163, 175, 0.1);
+    border-color: rgba(156, 163, 175, 0.4);
+    box-shadow: 
+      inset 0 2px 10px rgba(0, 0, 0, 0.5),
+      0 4px 20px rgba(0, 0, 0, 0.4),
+      0 0 30px rgba(156, 163, 175, 0.2);
   }
 
   .glass-input::placeholder {
@@ -141,37 +206,52 @@ body {
   /* Transaction type badges */
   .badge-buy {
     @apply inline-flex items-center px-2 py-1 rounded-lg text-xs font-medium;
-    background: rgba(34, 197, 94, 0.15);
+    background: linear-gradient(135deg, rgba(34, 197, 94, 0.2) 0%, rgba(34, 197, 94, 0.15) 100%);
     color: var(--neon-green);
-    border: 1px solid rgba(34, 197, 94, 0.2);
+    border: 1px solid rgba(34, 197, 94, 0.3);
+    box-shadow: 
+      0 2px 10px rgba(0, 0, 0, 0.5),
+      0 0 15px rgba(34, 197, 94, 0.2),
+      inset 0 1px 0 rgba(34, 197, 94, 0.2);
   }
 
   .badge-sell {
     @apply inline-flex items-center px-2 py-1 rounded-lg text-xs font-medium;
-    background: rgba(239, 68, 68, 0.15);
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.2) 0%, rgba(239, 68, 68, 0.15) 100%);
     color: var(--neon-red);
-    border: 1px solid rgba(239, 68, 68, 0.2);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    box-shadow: 
+      0 2px 10px rgba(0, 0, 0, 0.5),
+      0 0 15px rgba(239, 68, 68, 0.2),
+      inset 0 1px 0 rgba(239, 68, 68, 0.2);
   }
 
   /* Status indicators */
   .status-active {
     @apply w-2 h-2 rounded-full;
     background: var(--neon-green);
-    box-shadow: 0 0 8px rgba(34, 197, 94, 0.5);
+    box-shadow: 
+      0 0 15px rgba(34, 197, 94, 0.8),
+      0 0 30px rgba(34, 197, 94, 0.4);
   }
 
   .status-paused {
     @apply w-2 h-2 rounded-full;
     background: #F59E0B;
-    box-shadow: 0 0 8px rgba(245, 158, 11, 0.5);
+    box-shadow: 
+      0 0 15px rgba(245, 158, 11, 0.8),
+      0 0 30px rgba(245, 158, 11, 0.4);
   }
 
   /* Platform badges */
   .platform-badge {
     @apply inline-flex items-center px-2 py-0.5 rounded text-xs;
-    background: rgba(156, 163, 175, 0.1);
+    background: linear-gradient(135deg, rgba(156, 163, 175, 0.15) 0%, rgba(156, 163, 175, 0.1) 100%);
     color: var(--plasma-400);
-    border: 1px solid rgba(156, 163, 175, 0.15);
+    border: 1px solid rgba(156, 163, 175, 0.2);
+    box-shadow: 
+      0 2px 8px rgba(0, 0, 0, 0.4),
+      inset 0 1px 0 rgba(156, 163, 175, 0.1);
   }
 }
 
@@ -189,10 +269,32 @@ body {
 
 @keyframes pulse-glow {
   0%, 100% {
-    box-shadow: 0 0 20px rgba(156, 163, 175, 0.1);
+    box-shadow: 
+      0 0 30px rgba(156, 163, 175, 0.15),
+      0 0 60px rgba(156, 163, 175, 0.08);
   }
   50% {
-    box-shadow: 0 0 30px rgba(156, 163, 175, 0.2);
+    box-shadow: 
+      0 0 50px rgba(156, 163, 175, 0.25),
+      0 0 80px rgba(156, 163, 175, 0.12);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) translateZ(0px);
+  }
+  50% {
+    transform: translateY(-10px) translateZ(5px);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
   }
 }
 
@@ -202,6 +304,10 @@ body {
 
 .animate-pulse-glow {
   animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
 }
 
 /* Expand animation for wallet details */
