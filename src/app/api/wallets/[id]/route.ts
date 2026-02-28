@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/db'
+import { getTracker } from '@/lib/tracker'
 
 // GET - Fetch single wallet by ID
 export async function GET(
@@ -54,6 +55,10 @@ export async function DELETE(
       )
     }
 
+    // Remove from tracker
+    const tracker = getTracker()
+    await tracker.removeWallet(wallet.address)
+
     // Delete wallet (cascade will delete transactions)
     await prisma.webWallet.delete({
       where: { id: params.id },
@@ -99,6 +104,21 @@ export async function PUT(
         ...(isActive !== undefined && { isActive }),
       },
     })
+
+    // Update tracker
+    const tracker = getTracker()
+    if (isActive !== undefined) {
+      if (isActive) {
+        await tracker.addWallet({
+          id: updatedWallet.id,
+          address: updatedWallet.address,
+          name: updatedWallet.name,
+          isActive: updatedWallet.isActive,
+        })
+      } else {
+        await tracker.removeWallet(updatedWallet.address)
+      }
+    }
 
     return NextResponse.json({
       success: true,

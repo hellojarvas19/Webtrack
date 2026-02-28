@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/db'
+import { getTracker } from '@/lib/tracker'
 
 // GET - Fetch all wallets
 export async function GET() {
@@ -81,6 +82,15 @@ export async function POST(request: NextRequest) {
         name: name || null,
         isActive: true,
       },
+    })
+
+    // Add to tracker
+    const tracker = getTracker()
+    await tracker.addWallet({
+      id: wallet.id,
+      address: wallet.address,
+      name: wallet.name,
+      isActive: wallet.isActive,
     })
 
     return NextResponse.json({

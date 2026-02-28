@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import './globals.css'
+import { TrackerInitializer } from '@/components/TrackerInitializer'
 
 export const metadata: Metadata = {
   title: 'WebTrack - Solana Wallet Tracker',
@@ -14,6 +15,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="bg-void min-h-screen antialiased">
+        <TrackerInitializer />
         <div className="relative min-h-screen">
           {/* Background gradient effects */}
           <div className="fixed inset-0 pointer-events-none">
